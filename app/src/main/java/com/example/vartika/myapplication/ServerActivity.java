@@ -5,10 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
@@ -86,13 +89,32 @@ public class ServerActivity extends AppCompatActivity {
                 String messageFromClient;
 
                 //If no message sent from client, this code will block the program
-                    messageFromClient = dataInputStream.readUTF();
-                    Log.i(LOG_TAG, "message from client, " + messageFromClient);
+                PrintWriter out =
+                        new PrintWriter(socket.getOutputStream(), true);
+                BufferedReader in =
+                        new BufferedReader(
+                                new InputStreamReader(socket.getInputStream()));
+                BufferedReader stdIn =
+                        new BufferedReader(
+                                new InputStreamReader(System.in));
+
+                String userInput;
+                int b = in.read();
+                Log.i(LOG_TAG, "b value:, " + b);
+                userInput = in.readLine();
+                System.out.println("echo: " + userInput);
+/*                while ((userInput = stdIn.readLine()) != null) {
+                    out.println(userInput);
+                    System.out.println("echo: " + in.readLine());
+                }*/
+
+//                    messageFromClient = dataInputStream.readUTF();
+                   // Log.i(LOG_TAG, "message from client, " + messageFromClient);
 
                     count++;
                     message += "#" + count + " from " + socket.getInetAddress()
                             + ":" + socket.getPort() + "\n"
-                            + "Msg from client: " + messageFromClient + "\n";
+                            + "Msg from client: " + userInput + "\n";
 
                     Log.i(LOG_TAG, "message from client, " + message);
 
