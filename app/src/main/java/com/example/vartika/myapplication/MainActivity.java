@@ -14,7 +14,6 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -100,112 +99,24 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            try {
                 Log.i(LOG_TAG, "socket client, " + socket);
                 try {
                     socket = new Socket(dstAddress, dstPort);
                 } catch (IOException e) {
                     e.printStackTrace();
+                } finally {
+
                 }
                 Log.i(LOG_TAG, "socket client, " + socket);
                 Log.i(LOG_TAG, "isSocketConnected, " + socket.isConnected());
 
-/*
-                dataOutputStream = new DataOutputStream(
-                        socket.getOutputStream());
-                dataInputStream = new DataInputStream(socket.getInputStream());
 
-                PrintWriter out =
-                        new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader in =
-                        new BufferedReader(
-                                new InputStreamReader(socket.getInputStream()));
-                BufferedReader stdIn =
-                        new BufferedReader(
-                                new InputStreamReader(System.in));
-
-                if (msgToServer != null) {
-                    dataOutputStream.writeUTF(msgToServer);
-                    Log.i(LOG_TAG, "dataOutputStream, " + dataOutputStream.size());
-                }
-
-                String userInput;
-                userInput = in.readLine();
-                Log.i(LOG_TAG, "echo:, " + userInput);
-                response = userInput;
-*/
-/*
-                while ((userInput = stdIn.readLine()) != null) {
-                    out.println(userInput);
-                    System.out.println("echo: " + in.readLine());
-                }
-*/
-                //    dataOutputStream.flush();
-                //  dataOutputStream.close();
-                //  int b = dataInputStream.read();
-                //Log.i(LOG_TAG, "b , " + b);
-                //  String k = dataInputStream.readUTF();
-                // Log.i(LOG_TAG, "k value, " + k);
-//                    response = dataInputStream.readUTF();
-                //  Log.i(LOG_TAG, "response, " + userInput);
-
-/*
-                try {
-                    while (true) {
-                        System.out.println(dataInputStream.readUTF());
-                        response = dataInputStream.readUTF();
-                    }
-                } catch (EOFException e) {
-                    e.printStackTrace();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                response = "UnknownHostException: " + e.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-                response = "IOException: " + e.toString();
-            } finally {
-*/
-/*
-                if (socket != null) {
-                    try {
-                        socket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-*//*
-
-                if (dataOutputStream != null) {
-                    try {
-                        dataOutputStream.close();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-
-                if (dataInputStream != null) {
-                    try {
-                        dataInputStream.close();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
                 return null;
-*/
-
-            }finally {
-
-            }
-        return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
             buttonConnect.setText("Connected");
-            //  textResponse.setText(response);
             super.onPostExecute(result);
         }
     }
@@ -254,20 +165,16 @@ public class MainActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                // Perform long-running task here
-                // (like audio buffering).
-                // you may want to update some progress
-                // bar every second, so use handler:
                 if (msgToServer != null) {
                     try {
+                        Log.i(LOG_TAG, "message to server, " + msgToServer);
                         dataOutputStream.writeUTF(msgToServer);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     Log.i(LOG_TAG, "dataOutputStream, " + dataOutputStream.size());
-                    String userInput;
                     try {
-                        userInput = finalIn.readLine();
+                       String userInput = finalIn.readLine();
                         Log.i(LOG_TAG, "echo:, " + userInput);
                         response[0] = userInput;
                         Log.i(LOG_TAG, "response, " + response[0]);
