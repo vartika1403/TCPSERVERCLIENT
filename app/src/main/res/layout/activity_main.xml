@@ -13,12 +13,20 @@
         android:autoLink="web"
         android:text="http://android-er.blogspot.com/"
         android:textStyle="bold" />
+
     <EditText
         android:id="@+id/welcomemsg"
         android:inputType="textNoSuggestions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Say hello to server" />
+        android:hint="ENTER SSID" />
+
+    <EditText
+        android:id="@+id/password"
+        android:inputType="textNoSuggestions"
+        android:hint="ENTER PASSWORD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <EditText
         android:id="@+id/address"
         android:inputType="textNoSuggestions"

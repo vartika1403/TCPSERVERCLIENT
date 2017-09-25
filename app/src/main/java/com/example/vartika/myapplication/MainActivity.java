@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
     private void sendMessageToServer() {
         final String[] response = {""};
         String messageServer = welcomeMsg.getText().toString();
+        Log.i(LOG_TAG, "messageServer, " + messageServer.length());
         if (messageServer.equals("")) {
             messageServer = null;
             Toast.makeText(MainActivity.this, "No Welcome Msg sent", Toast.LENGTH_SHORT).show();
@@ -168,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 if (msgToServer != null) {
                     try {
                         Log.i(LOG_TAG, "message to server, " + msgToServer);
-                        dataOutputStream.writeUTF(msgToServer);
+                        dataOutputStream.writeBytes(msgToServer);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
