@@ -16,6 +16,7 @@
 
     <EditText
         android:id="@+id/welcomemsg"
+        android:maxLength="30"
         android:inputType="textNoSuggestions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,6 +24,7 @@
 
     <EditText
         android:id="@+id/password"
+        android:maxLength="30"
         android:inputType="textNoSuggestions"
         android:hint="ENTER PASSWORD"
         android:layout_width="match_parent"

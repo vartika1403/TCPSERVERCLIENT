@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -30,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     EditText editTextAddress, editTextPort;
     Button buttonConnect, buttonClear, buttonSendData;
     EditText welcomeMsg;
+    EditText passwordText;
     String msgToServer = "";
 
     @Override
@@ -45,11 +45,39 @@ public class MainActivity extends AppCompatActivity {
         textResponse = (TextView) findViewById(R.id.response);
 
         welcomeMsg = (EditText) findViewById(R.id.welcomemsg);
+        passwordText = (EditText) findViewById(R.id.password);
 
         buttonConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String tMsg = welcomeMsg.getText().toString();
+                String password = passwordText.getText().toString();
+                StringBuffer ssidName = new StringBuffer(30);
+                ssidName.append(tMsg);
+                Log.i(LOG_TAG, "ssidName string buffer, " + ssidName);
+                StringBuffer leftSSID = new StringBuffer();
+                if (ssidName.length() < 30) {
+                    for (int i = ssidName.length() + 1; i < 30; i++) {
+                        leftSSID.append('0');
+                    }
+                }
+                StringBuffer passwordText = new StringBuffer(30);
+                passwordText.append(password);
+                StringBuffer leftPassword = new StringBuffer();
+                if (passwordText.length() < 30) {
+                    for (int i = passwordText.length() + 1; i < 30; i++) {
+                        leftPassword.append('0');
+                    }
+                }
+
+                Log.i(LOG_TAG, "password string buffer, " + passwordText.length());
+                // main string contains ssid and password
+                String totalString = ssidName + ";" + leftSSID + passwordText + ";" + leftPassword;
+                Log.i(LOG_TAG, "totalString, " + totalString.length());
+                if (totalString.equals("")) {
+                    tMsg = null;
+                    Toast.makeText(MainActivity.this, "No SSID and Password sent", Toast.LENGTH_SHORT).show();
+                }
                 if (tMsg.equals("")) {
                     tMsg = null;
                     Toast.makeText(MainActivity.this, "No Welcome Msg sent", Toast.LENGTH_SHORT).show();
@@ -59,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     MyClientTask myClientTask = new MyClientTask(editTextAddress
                             .getText().toString(), Integer.parseInt(editTextPort
                             .getText().toString()),
-                            tMsg);
+                            totalString);
                     myClientTask.execute();
                 } else {
                     Toast.makeText(MainActivity.this, "Please enter ip and port", Toast.LENGTH_SHORT).show();
