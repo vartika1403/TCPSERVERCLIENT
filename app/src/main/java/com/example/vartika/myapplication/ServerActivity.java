@@ -8,7 +8,6 @@ import android.widget.TextView;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -186,11 +185,8 @@ public class ServerActivity extends AppCompatActivity {
                         ip += "SiteLocalAddress: "
                                 + inetAddress.getHostAddress() + "\n";
                     }
-
                 }
-
             }
-
         } catch (SocketException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

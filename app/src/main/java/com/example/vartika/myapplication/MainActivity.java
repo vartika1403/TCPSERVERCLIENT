@@ -20,13 +20,16 @@ import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private final int PORT_NUM = 5001;
+    private final String IP_ADDRESS = "192.168.43.156";
 
     private Socket socket = null;
     private Handler handler;
     DataOutputStream dataOutputStream = null;
     DataInputStream dataInputStream = null;
     TextView textResponse;
-    EditText editTextAddress, editTextPort;
+    TextView ipAddress;
+    TextView  textPort;
     Button buttonConnect, buttonClear, buttonSendData;
     EditText welcomeMsg;
     EditText passwordText;
@@ -37,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editTextAddress = (EditText) findViewById(R.id.address);
-        editTextPort = (EditText) findViewById(R.id.port);
+        ipAddress = (TextView) findViewById(R.id.address);
+        textPort = (TextView) findViewById(R.id.port);
         buttonConnect = (Button) findViewById(R.id.connect);
         buttonClear = (Button) findViewById(R.id.clear);
         buttonSendData = (Button) findViewById(R.id.send_data);
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String tMsg = welcomeMsg.getText().toString();
                 String password = passwordText.getText().toString();
+                ipAddress.setText(IP_ADDRESS);
                 StringBuffer ssidName = new StringBuffer(30);
                 ssidName.append(tMsg);
                 Log.i(LOG_TAG, "ssidName string buffer, " + ssidName);
@@ -83,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "No Welcome Msg sent", Toast.LENGTH_SHORT).show();
                 }
 
-                if (!editTextAddress.getText().toString().isEmpty() && !editTextPort.getText().toString().isEmpty()) {
-                    MyClientTask myClientTask = new MyClientTask(editTextAddress
-                            .getText().toString(), Integer.parseInt(editTextPort
+                if (!ipAddress.getText().toString().isEmpty() && !textPort.getText().toString().isEmpty()) {
+                    MyClientTask myClientTask = new MyClientTask(ipAddress
+                            .getText().toString(), Integer.parseInt(textPort
                             .getText().toString()),
                             totalString);
                     myClientTask.execute();
@@ -136,8 +140,9 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 Log.i(LOG_TAG, "socket client, " + socket);
-                Log.i(LOG_TAG, "isSocketConnected, " + socket.isConnected());
-
+               if (socket != null) {
+                   Log.i(LOG_TAG, "isSocketConnected, " + socket.isConnected());
+               }
 
                 return null;
         }
@@ -187,7 +192,9 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Log.i(LOG_TAG, "while sending data socket, " + socket.isConnected());
+        if (socket != null) {
+            Log.i(LOG_TAG, "while sending data socket, " + socket.isConnected());
+        }
         handler = new Handler();
 
         final BufferedReader finalIn = in;
@@ -223,44 +230,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
 
-/*
-        if (msgToServer != null) {
-            try {
-                dataOutputStream.writeUTF(msgToServer);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Log.i(LOG_TAG, "dataOutputStream, " + dataOutputStream.size());
-        }
 
-        String userInput;
-        try {
-            userInput = in.readLine();
-            Log.i(LOG_TAG, "echo:, " + userInput);
-            response = userInput;
-            Log.i(LOG_TAG, "response, " + response);
-            textResponse.setText(response);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-*/
-
-      /*  try {
-            while (true) {
-                System.out.println(dataInputStream.readUTF());
-                response = dataInputStream.readUTF();
-            }
-        } catch (EOFException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-            response = "UnknownHostException: " + e.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            response = "IOException: " + e.toString();
-        } finally {
-*//*
-                if (socket != null) {
+/*                if (socket != null) {
                     try {
                         socket.close();
                     } catch (IOException e) {

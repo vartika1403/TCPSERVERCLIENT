@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.vartika.myapplication.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:autoLink="web"
-        android:text="http://android-er.blogspot.com/"
-        android:textStyle="bold" />
-
     <EditText
         android:id="@+id/welcomemsg"
         android:maxLength="30"
@@ -29,14 +21,19 @@
         android:hint="ENTER PASSWORD"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <EditText
+
+    <TextView
         android:id="@+id/address"
         android:inputType="textNoSuggestions"
+        android:text="192.168.43.156"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="dstAddress" />
-    <EditText
+
+    <TextView
         android:id="@+id/port"
+        android:layout_marginTop="4dp"
+        android:text="5001"
         android:inputType="textNoSuggestions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
